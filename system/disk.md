@@ -51,8 +51,21 @@ vgextend pve /dev/nvme1n1p4
 ```bash
 lvextend --poolmetadatasize +4G /dev/pve/data
 ```
-### 配置給 VMs 存放區域 `thin pool`
+### 配置空間， `root` 與 `data(thin-pool)`
 ```bash
 # lvextend -l +20%FREE /dev/pve/root # (可選)，這個是用來備份、保存ISO、保存模板的空間，這裡可以用 +100G 之類的形式
 lvextend -l +100%FREE /dev/pve/data
+```
+
+### **操作失誤**，全部給了 `thin-pool`
+在沒有任何 VMs 的時候可以移除掉 `thin-pool`
+```bash
+lvremove pve/data
+```
+然後配置比預設(1G)更大的`poolmetadatasize`，剩餘才給 `thin-pool` 和 `root`
+```bash
+# 可以不是 90 %，而是 100 % 給 thin-pool
+lvcreate --type thin-pool --name data \ 
+  --poolmetadatasize 4G -l +90%FREE pve
+# lvextend -l +100%FREE /dev/pve/root # (可選)
 ```
