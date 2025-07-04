@@ -28,4 +28,12 @@
         - swap 寫原始記憶體 1/4 差不多就行
     - 網路配置，單節點的 PVE 推薦不要直接拿公網 IP，用路由下的 NAT 網路
     - 瑣碎雜事...最後確認配置
-
+    - 安裝安裝...等到最後要進行重新啟動
+5. 系統會進入藍色底的 grub，等待十秒或直接 Enter 進入系統
+6. 在可拜訪主機的網路下，連線 `https://主機IP:8006` 進入 Proxmox VE WebUI
+7. 若是在實驗室，我推薦先安裝 [Tailscale](https://tailscale.com/) 作為自己電腦和 PVE 的 VPN
+    - 打開官網免費註冊
+    - [不同系統下載方式不同](https://tailscale.com/download/linux)
+    - Proxmox VE 和自己電腦都安裝好，都執行`tailscale up`並且登入
+    - 可以到 [管理介面](https://login.tailscale.com/admin/machines) 點擊不同主機的 `...` 點擊 `Disable key expiry`
+    - 然後就可以嘗試看看連線是否正常，因為已經關閉 key 過期，所以之後都能連線
